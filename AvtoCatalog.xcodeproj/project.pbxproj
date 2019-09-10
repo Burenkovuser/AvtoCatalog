@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		FB2457EC2326A17900B46E80 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB2457EA2326A17900B46E80 /* Main.storyboard */; };
 		FB2457EE2326A17B00B46E80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB2457ED2326A17B00B46E80 /* Assets.xcassets */; };
 		FB2457F12326A17B00B46E80 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB2457EF2326A17B00B46E80 /* LaunchScreen.storyboard */; };
+		FB36DEC02327A96B00E3D6D0 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36DEBF2327A96B00E3D6D0 /* StorageManager.swift */; };
 		FB3C38D823278C880066093A /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3C38D723278C880066093A /* CustomCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		FB2457ED2326A17B00B46E80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB2457F02326A17B00B46E80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB2457F22326A17B00B46E80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB36DEBF2327A96B00E3D6D0 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		FB3C38D723278C880066093A /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,7 +60,6 @@
 				36E2D6488EF817D4BB28535F /* Pods-AvtoCatalog.debug.xcconfig */,
 				EC3BE03A0716CDDF476A8C47 /* Pods-AvtoCatalog.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -97,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				FB09FCD72327645200C132DB /* Car.swift */,
+				FB36DEBF2327A96B00E3D6D0 /* StorageManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -236,6 +238,7 @@
 			files = (
 				FB09FCD623273CF500C132DB /* MainViewController.swift in Sources */,
 				FB2457E72326A17900B46E80 /* AppDelegate.swift in Sources */,
+				FB36DEC02327A96B00E3D6D0 /* StorageManager.swift in Sources */,
 				FB3C38D823278C880066093A /* CustomCell.swift in Sources */,
 				FB09FCD82327645200C132DB /* Car.swift in Sources */,
 			);

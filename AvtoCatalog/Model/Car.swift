@@ -6,11 +6,11 @@
 //  Copyright © 2019 Vasilii Burenkov. All rights reserved.
 //
 
-import Foundation
+import RealmSwift
 
-struct Car {
-    var manufacturer: String
-    var model: String
-    var year: String
-    var bodyType: String
+class Car: Object {
+    @objc dynamic var manufacturer = ""
+    @objc dynamic var model = ""
+    @objc dynamic var year = ""
+    @objc dynamic var bodyType = ""
 }

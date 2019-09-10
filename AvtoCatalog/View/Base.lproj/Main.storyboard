@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Cars-->
+        <!--Список автомобилей-->
         <scene sceneID="Gut-CY-wCg">
             <objects>
                 <tableViewController id="Twu-Xs-UIo" customClass="MainViewController" customModule="AvtoCatalog" customModuleProvider="target" sceneMemberID="viewController">
@@ -115,7 +115,7 @@
                             <outlet property="delegate" destination="Twu-Xs-UIo" id="L1H-u2-bSO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Cars" id="RLY-M9-bPd">
+                    <navigationItem key="navigationItem" title="Список автомобилей" id="RLY-M9-bPd">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ccu-zN-IjV">
                             <connections>
                                 <action selector="addButtonPressed:" destination="Twu-Xs-UIo" id="1bg-Gn-Ay7"/>

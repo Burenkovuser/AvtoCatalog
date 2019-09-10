@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import RealmSwift
 
 class MainViewController: UITableViewController {
     
+    var carsList: Results<Car>! // коллекция всех данных с типом Car
 
     @IBAction func addButtonPressed(_ sender: Any) {
         alertForAddAndUpdateAvto()
@@ -17,35 +19,38 @@ class MainViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        carsList = realmCar.objects(Car.self) // достаем из базы объекты типа Car
+        
+        
+        if realmCar.isEmpty {
+            loadCars()
+        }
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return carsList.count
     }
 
-    /*
+   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomCell
 
-        // Configure the cell...
+        let carInfo = carsList[indexPath.row]
+        cell.manufactureLabel.text = carInfo.manufacturer
+        cell.modelLabel.text = carInfo.model
+        cell.yaerLabel.text = carInfo.year
+        cell.bodyTypeLabel.text = carInfo.bodyType
 
         return cell
     }
-    */
+ 
 
     /*
     // Override to support conditional editing of the table view.
@@ -91,6 +96,22 @@ class MainViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    private func loadCars() {
+        let car1 = Car()
+        car1.manufacturer = "Audi"
+        car1.model = "A3"
+        car1.year = "2012"
+        car1.bodyType = "Sedan"
+        
+        let car2 = Car(value: ["Audi", "A5", "2016", "Hatchback"])
+        let car3 = Car(value: ["Audi", "RS 5", "2011", "Cabriolet"])
+        
+        DispatchQueue.main.async {
+            StorageManager.SaveCar([car1, car2, car3])
+        }
+        
+    }
 
 }
 
@@ -98,19 +119,19 @@ extension MainViewController {
     
     private func alertForAddAndUpdateAvto() {
         
-        let alert = UIAlertController(title: "New Task", message: "Please insert task value", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Новый автомобиль", message: "Добавьте новый автомобиль", preferredStyle: .alert)
         var taskTextField: UITextField! //поменять названия
         var noteTextField: UITextField! //поменять названия
         var noteTextField1: UITextField! //поменять названия
         var noteTextField2: UITextField! //поменять названия
         
         
-        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
             guard let text = taskTextField.text , !text.isEmpty else { return }
             
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .destructive)
         
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
