@@ -1,0 +1,6 @@
+framework module Pods_AvtoCatalog {
+  umbrella header "Pods-AvtoCatalog-umbrella.h"
+
+  export *
+  module * { export * }
+}
