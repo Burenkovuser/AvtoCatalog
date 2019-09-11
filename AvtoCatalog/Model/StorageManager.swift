@@ -23,6 +23,11 @@ class StorageManager {
         try! realmCar.write {
              realmCar.add(car)
         }
-        
+    }
+    
+    static func deleteCar(_ car: Car) {
+        try! realmCar.write {
+            realmCar.delete(car)
+        }
     }
 }
