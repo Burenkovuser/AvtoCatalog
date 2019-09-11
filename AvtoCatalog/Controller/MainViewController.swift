@@ -108,11 +108,9 @@ class MainViewController: UITableViewController {
         let car3 = Car(value: ["Audi", "RS 5", "2011", "Cabriolet"])
         
         DispatchQueue.main.async {
-            StorageManager.SaveCar([car1, car2, car3])
+            StorageManager.SaveCars([car1, car2, car3])
         }
-        
     }
-
 }
 
 extension MainViewController {
@@ -120,15 +118,24 @@ extension MainViewController {
     private func alertForAddAndUpdateAvto() {
         
         let alert = UIAlertController(title: "Новый автомобиль", message: "Добавьте новый автомобиль", preferredStyle: .alert)
-        var taskTextField: UITextField! //поменять названия
-        var noteTextField: UITextField! //поменять названия
-        var noteTextField1: UITextField! //поменять названия
-        var noteTextField2: UITextField! //поменять названия
+        var manufactureTextField: UITextField!
+        var modelTextField: UITextField!
+        var yearTextField: UITextField!
+        var bodyTypeTextField: UITextField!
         
         
         let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
-            guard let text = taskTextField.text , !text.isEmpty else { return }
+            guard let newManufacture = manufactureTextField.text , !newManufacture.isEmpty else { return }
             
+            let car = Car()
+            car.manufacturer = newManufacture
+            car.model = modelTextField.text ?? ""
+            car.year = yearTextField.text ?? ""
+            car.bodyType = bodyTypeTextField.text ?? ""
+            
+            StorageManager.SaveCar(car)
+            
+            self.tableView.insertRows(at: [IndexPath(row: self.carsList.count - 1, section: 0)], with: .automatic)
         }
         
         let cancelAction = UIAlertAction(title: "Отмена", style: .destructive)
@@ -137,23 +144,23 @@ extension MainViewController {
         alert.addAction(cancelAction)
         
         alert.addTextField { textField in
-            taskTextField = textField
-            taskTextField.placeholder = "Производитель"
+            manufactureTextField = textField
+            manufactureTextField.placeholder = "Производитель"
         }
         
         alert.addTextField { textField in
-            noteTextField = textField
-            noteTextField.placeholder = "Модель"
+            modelTextField = textField
+            modelTextField.placeholder = "Модель"
         }
         
         alert.addTextField { textField in
-            noteTextField1 = textField
-            noteTextField1.placeholder = "Год выпуска"
+            yearTextField = textField
+            yearTextField.placeholder = "Год выпуска"
         }
         
         alert.addTextField { textField in
-            noteTextField2 = textField
-            noteTextField2.placeholder = "Тип кузова"
+            bodyTypeTextField = textField
+            bodyTypeTextField.placeholder = "Тип кузова"
         }
         
         present(alert, animated: true)

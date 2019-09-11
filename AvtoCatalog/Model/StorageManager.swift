@@ -11,10 +11,18 @@ import RealmSwift
 let realmCar = try! Realm()
 
 class StorageManager {
-    static func SaveCar(_ cars: [Car]) {
+    
+    static func SaveCars(_ cars: [Car]) {
         try! realmCar.write {
             realmCar.add(cars)
         }
 
+    }
+    
+    static func SaveCar(_ car: Car) {
+        try! realmCar.write {
+             realmCar.add(car)
+        }
+        
     }
 }
