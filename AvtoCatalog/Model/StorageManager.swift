@@ -16,7 +16,6 @@ class StorageManager {
         try! realmCar.write {
             realmCar.add(cars)
         }
-
     }
     
     static func SaveCar(_ car: Car) {
@@ -28,6 +27,15 @@ class StorageManager {
     static func deleteCar(_ car: Car) {
         try! realmCar.write {
             realmCar.delete(car)
+        }
+    }
+    
+    static func editCar(_ car: Car, newManufacturer: String, newModel: String, newYear: String, newBodyType: String) {
+        try! realmCar.write {
+            car.manufacturer = newManufacturer
+            car.model = newModel
+            car.year = newYear
+            car.bodyType = newBodyType
         }
     }
 }

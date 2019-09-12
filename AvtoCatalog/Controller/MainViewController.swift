@@ -20,8 +20,9 @@ class MainViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        carsList = realmCar.objects(Car.self) // достаем из базы объекты типа Car
+        navigationItem.leftBarButtonItem = editButtonItem
         
+        carsList = realmCar.objects(Car.self) // достаем из базы объекты типа Car
         
         if realmCar.isEmpty {
             loadCars()
@@ -54,6 +55,8 @@ class MainViewController: UITableViewController {
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
+        let car = carsList[indexPath.row]
+        
         let currentCar = carsList[indexPath.row] // объект для удаления
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Удалить") { (_, _) in
@@ -61,7 +64,13 @@ class MainViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         
-        return [deleteAction]
+        let editAction = UITableViewRowAction(style: .normal, title: "Изменить") { (_, _) in
+            self.alertForAddAndUpdateAvto(car)
+        }
+        
+        editAction.backgroundColor = .blue
+        
+        return [deleteAction, editAction]
     }
     
     // MARK: - Private funcs
@@ -78,33 +87,54 @@ class MainViewController: UITableViewController {
         
         DispatchQueue.main.async {
             StorageManager.SaveCars([car1, car2, car3])
+            self.tableView.reloadData()
         }
     }
 }
 
 extension MainViewController {
     
-    private func alertForAddAndUpdateAvto() {
+    private func alertForAddAndUpdateAvto(_ carName: Car? = nil) {
         
-        let alert = UIAlertController(title: "Новый автомобиль", message: "Добавьте новый автомобиль", preferredStyle: .alert)
+        var title = "Новый автомобиль"
+        var doneButton = "Сохранить"
+        var message = "Добавьте новый автомобиль (для добавления заполните ВСЕ поля!)"
+        
+        if carName != nil {
+            title = "Изменить автомобиль"
+            doneButton = "Обновить"
+            message = "Измените данные об автомобиле"
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         var manufactureTextField: UITextField!
         var modelTextField: UITextField!
         var yearTextField: UITextField!
         var bodyTypeTextField: UITextField!
         
         
-        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
+        let saveAction = UIAlertAction(title: doneButton, style: .default) { _ in
             guard let newManufacture = manufactureTextField.text , !newManufacture.isEmpty else { return }
+            guard let newModel = modelTextField.text , !newModel.isEmpty else { return }
+            guard let newYear = yearTextField.text , !newYear.isEmpty else { return }
+            guard let newBodyType = bodyTypeTextField.text , !newBodyType.isEmpty else { return }
             
-            let car = Car()
-            car.manufacturer = newManufacture
-            car.model = modelTextField.text ?? ""
-            car.year = yearTextField.text ?? ""
-            car.bodyType = bodyTypeTextField.text ?? ""
-            
-            StorageManager.SaveCar(car)
-            
-            self.tableView.insertRows(at: [IndexPath(row: self.carsList.count - 1, section: 0)], with: .automatic)
+            if let carName = carName {
+ 
+                    StorageManager.editCar(carName, newManufacturer: newManufacture, newModel: newModel, newYear: newYear, newBodyType: newBodyType)
+               self.tableView.reloadData()
+ 
+            } else {
+                let car = Car()
+                car.manufacturer = newManufacture
+                car.model = modelTextField.text ?? ""
+                car.year = yearTextField.text ?? ""
+                car.bodyType = bodyTypeTextField.text ?? ""
+                
+                StorageManager.SaveCar(car)
+                
+                self.tableView.insertRows(at: [IndexPath(row: self.carsList.count - 1, section: 0)], with: .automatic)
+            }
         }
         
         let cancelAction = UIAlertAction(title: "Отмена", style: .destructive)
@@ -115,21 +145,37 @@ extension MainViewController {
         alert.addTextField { textField in
             manufactureTextField = textField
             manufactureTextField.placeholder = "Производитель"
+            
+            if let carName = carName {
+                manufactureTextField.text = carName.manufacturer
+            }
         }
         
         alert.addTextField { textField in
             modelTextField = textField
             modelTextField.placeholder = "Модель"
+            
+            if let carName = carName {
+                modelTextField.text = carName.model
+            }
         }
         
         alert.addTextField { textField in
             yearTextField = textField
             yearTextField.placeholder = "Год выпуска"
+            
+            if let carName = carName {
+                yearTextField.text = carName.year
+            }
         }
         
         alert.addTextField { textField in
             bodyTypeTextField = textField
             bodyTypeTextField.placeholder = "Тип кузова"
+            
+            if let carName = carName {
+                bodyTypeTextField.text = carName.bodyType
+            }
         }
         
         present(alert, animated: true)
